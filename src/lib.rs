@@ -765,6 +765,12 @@ impl Socket {
         }
     }
 
+    pub fn set_ws_msg_type(&mut self, msg_type: c_int) -> Result<()> {
+        self.set_socket_options_c_int(nanomsg_sys::NN_WS_MSG_TYPE,
+                                      msg_type,
+                                      msg_type)
+    }
+
     /// Specifies how long the socket should try to send pending outbound messages after `drop` have been called.
     /// Negative value means infinite linger. Default value is 1000 (1 second).
     pub fn set_linger(&mut self, linger: isize) -> Result<()> {
