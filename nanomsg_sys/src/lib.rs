@@ -65,6 +65,7 @@ pub const NN_POLLIN: c_short = 1;
 pub const NN_POLLOUT: c_short = 2;
 pub const NN_POLL_IN_AND_OUT: c_short = NN_POLLIN + NN_POLLOUT;
 
+pub const NN_WS: c_int = -4;
 pub const NN_WS_MSG_TYPE: c_int = 1;
 pub const NN_WS_MSG_TYPE_TEXT: c_int = 1;
 pub const NN_WS_MSG_TYPE_BINARY: c_int = 2;

@@ -767,8 +767,8 @@ impl Socket {
     }
 
     pub fn set_ws_msg_type(&mut self, msg_type: ws::MessageType) -> Result<()> {
-        self.set_socket_options_c_int(nanomsg_sys::NN_WS_MSG_TYPE,
-                                      msg_type.to_raw(),
+        self.set_socket_options_c_int(nanomsg_sys::NN_WS,
+                                      nanomsg_sys::NN_WS_MSG_TYPE,
                                       msg_type.to_raw())
     }
 
