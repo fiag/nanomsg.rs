@@ -26,6 +26,7 @@ use std::os::windows::raw::SOCKET;
 
 pub mod result;
 pub mod endpoint;
+pub mod ws;
 
 /// Type-safe protocols that Nanomsg uses. Each socket
 /// is bound to a single protocol that has specific behaviour
@@ -89,19 +90,6 @@ impl Protocol {
         *self as c_int
     }
 }
-
-#[derive(Debug, PartialEq, Clone, Copy)]
-pub enum MessageType {
-    Text = (nanomsg_sys::NN_WS_MSG_TYPE_TEXT) as isize,
-    Binary = (nanomsg_sys::NN_WS_MSG_TYPE_BINARY) as isize,
-}
-
-impl MessageType {
-    fn to_raw(&self) -> c_int {
-        *self as c_int
-    }
-}
-
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Transport {
@@ -778,7 +766,7 @@ impl Socket {
         }
     }
 
-    pub fn set_ws_msg_type(&mut self, msg_type: MessageType) -> Result<()> {
+    pub fn set_ws_msg_type(&mut self, msg_type: ws::MessageType) -> Result<()> {
         self.set_socket_options_c_int(nanomsg_sys::NN_WS_MSG_TYPE,
                                       msg_type.to_raw(),
                                       msg_type.to_raw())
