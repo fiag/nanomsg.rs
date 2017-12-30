@@ -91,6 +91,19 @@ impl Protocol {
 }
 
 #[derive(Debug, PartialEq, Clone, Copy)]
+pub enum MessageType {
+    Text = (nanomsg_sys::NN_WS_MSG_TYPE_TEXT) as isize,
+    Binary = (nanomsg_sys::NN_WS_MSG_TYPE_BINARY) as isize,
+}
+
+impl MessageType {
+    fn to_raw(&self) -> c_int {
+        *self as c_int
+    }
+}
+
+
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Transport {
     /// In-process transport
     Inproc = (nanomsg_sys::NN_INPROC) as isize,
@@ -765,10 +778,10 @@ impl Socket {
         }
     }
 
-    pub fn set_ws_msg_type(&mut self, msg_type: c_int) -> Result<()> {
+    pub fn set_ws_msg_type(&mut self, msg_type: MessageType) -> Result<()> {
         self.set_socket_options_c_int(nanomsg_sys::NN_WS_MSG_TYPE,
-                                      msg_type,
-                                      msg_type)
+                                      msg_type.to_raw(),
+                                      msg_type.to_raw())
     }
 
     /// Specifies how long the socket should try to send pending outbound messages after `drop` have been called.
